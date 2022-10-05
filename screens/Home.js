@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
-import { LinearGradient } from "expo-linear-gradient";
+import ActionCard from "../components/ActionCard";
 import {
   FontAwesome5,
   FontAwesome,
@@ -88,62 +88,19 @@ const Home = () => {
             </Text>
           </View>
           <View style={styles.actionView}>
-            <LinearGradient
-              // colors={["#c33764", "#1d2671"]}
-              colors={[
-                "#f2e6ff",
-                "#e5ccff",
-                "#d9b3ff",
-                "#cc99ff",
-                "#bf80ff",
-                "#b2c6ff",
-                "#a54dff",
-                "#9933ff",
-                "#8c19ff",
-                "#7f00ff",
-              ]}
-              style={[styles.cardBtn, styles.shadowProp]}
-            >
+            <ActionCard>
               <View style={styles.cardIcon}>
-                <FontAwesome5 name="file-invoice" size={32} color="red" />
+                <FontAwesome5 name="file-invoice" size={32} color="black" />
               </View>
               <Text style={styles.cardText}>Pay Bills</Text>
-            </LinearGradient>
-            <LinearGradient
-              colors={[
-                "#f2e6ff",
-                "#e5ccff",
-                "#d9b3ff",
-                "#cc99ff",
-                "#bf80ff",
-                "#b2c6ff",
-                "#a54dff",
-                "#9933ff",
-                "#8c19ff",
-                "#7f00ff",
-              ]}
-              style={styles.cardBtn}
-            >
+            </ActionCard>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <FontAwesome name="send-o" size={32} color="red" />
               </View>
               <Text style={styles.cardText}>Send Money</Text>
-            </LinearGradient>
-            <LinearGradient
-              colors={[
-                "#f2e6ff",
-                "#e5ccff",
-                "#d9b3ff",
-                "#cc99ff",
-                "#bf80ff",
-                "#b2c6ff",
-                "#a54dff",
-                "#9933ff",
-                "#8c19ff",
-                "#7f00ff",
-              ]}
-              style={styles.cardBtn}
-            >
+            </ActionCard>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
                   name="card-account-details-star-outline"
@@ -152,33 +109,57 @@ const Home = () => {
                 />
               </View>
               <Text style={styles.cardText}>Fund Wallets</Text>
-            </LinearGradient>
-
-            <LinearGradient
-              // colors={["#c33764", "#1d2671"]}
-              colors={[
-                "#f2e6ff",
-                "#e5ccff",
-                "#d9b3ff",
-                "#cc99ff",
-                "#bf80ff",
-                "#b2c6ff",
-                "#a54dff",
-                "#9933ff",
-                "#8c19ff",
-                "#7f00ff",
-              ]}
-              style={styles.cardBtn}
-            >
+            </ActionCard>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
-                  name="phone-in-talk-outline"
+                  name="phone-in-talk"
                   size={32}
-                  color="red"
+                  color="green"
                 />
               </View>
               <Text style={styles.cardText}>Buy Airtime</Text>
-            </LinearGradient>
+            </ActionCard>
+          </View>
+          <View style={styles.giftCardView}>
+            <FontAwesome5 name="ribbon" size={24} color="black" />
+            <Text style={styles.boldText}>Generate a Gift Card</Text>
+            <MaterialCommunityIcons
+              name="gift-outline"
+              size={24}
+              color="black"
+            />
+          </View>
+          <Text style={[styles.boldText, styles.caption]}>EXTRAS</Text>
+          <View style={styles.extras}>
+            <ActionCard>
+              <View style={styles.cardIcon}>
+                <FontAwesome5 name="dollar-sign" size={24} color="#AB8000" />
+              </View>
+              <Text style={styles.cardText}>Buy/Sell USD</Text>
+            </ActionCard>
+            <ActionCard>
+              <View style={styles.cardIcon}>
+                <MaterialCommunityIcons
+                  name="account-multiple-plus"
+                  size={24}
+                  color="black"
+                />
+              </View>
+              <Text style={styles.cardText}>Referrals</Text>
+            </ActionCard>
+            <ActionCard>
+              <View style={styles.cardIcon}>
+                <MaterialCommunityIcons name="finance" size={24} color="red" />
+              </View>
+              <Text style={styles.cardText}>View Transactions</Text>
+            </ActionCard>
+            <ActionCard>
+              <View style={styles.cardIcon}>
+                <FontAwesome5 name="question" size={24} color="green" />
+              </View>
+              <Text style={styles.cardText}>Support Service</Text>
+            </ActionCard>
           </View>
         </View>
       </ScrollView>
@@ -198,16 +179,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: "white",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   card: {
     backgroundColor: "#1e002a",
-    width: "97%",
+    flex: 1,
     top: 5,
     bottom: 10,
-    right: 5,
-    left: 5,
+    marginRight: 5,
+    marginLeft: 5,
     borderRadius: 10,
   },
   cardBackgroundImg: {
@@ -220,6 +199,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     margin: 10,
     marginBottom: 5,
+  },
+  boldText: {
+    fontWeight: "bold",
+  },
+  caption: {
+    margin: 5,
+    marginTop: 10,
   },
   balanceTextView: {
     height: 30,
@@ -279,15 +265,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   notificationView: {
-    width: "97%",
+    flex: 1,
     height: "auto",
     marginTop: 15,
     marginLeft: 5,
     marginRight: 5,
     borderRadius: 10,
     backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "#1e002a",
+    borderWidth: 1.5,
+    borderColor: "#AB8000",
+    borderLeftWidth: 8,
+    borderLeftColor: "#AB8000",
   },
   textHeader: {
     color: "#1e002a",
@@ -296,32 +284,23 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   msgText: {
-    color: "#1e002a",
+    color: "black",
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,
   },
   actionView: {
+    flex: 1,
     height: "auto",
     backgroundColor: "white",
     borderColor: "#1e002a",
-    margin: 10,
+    margin: 5,
     marginTop: 5,
-    borderRadius: 10,
+    marginBottom: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     flexWrap: "wrap",
-  },
-  cardBtn: {
-    width: "47%",
-    marginTop: 5,
-    marginBottom: 10,
-    // backgroundColor: "#1e002a",
-    padding: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
-    borderRadius: 10,
   },
   cardIcon: {
     alignSelf: "center",
@@ -331,13 +310,34 @@ const styles = StyleSheet.create({
   },
   cardText: {
     textAlign: "center",
-    color: "white",
+    color: "black",
     fontWeight: "bold",
   },
-  shadowProp: {
-    shadowColor: "red",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+  // shadowProp: {
+  //   shadowColor: "red",
+  //   shadowOffset: { width: -2, height: 4 },
+  //   shadowOpacity: 0.2,
+  //   shadowRadius: 3,
+  // },
+  giftCardView: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#AB8000",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    padding: 10,
+    margin: 5,
+    borderRadius: 10,
+  },
+  extras: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    borderWidth: 1.5,
+    borderColor: "#AB8000",
+    margin: 5,
+    padding: 10,
+    borderRadius: 10,
+    justifyContent: "space-between",
   },
 });
