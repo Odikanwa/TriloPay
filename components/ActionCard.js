@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 
@@ -20,7 +20,7 @@ const ActionCard = (props) => {
       ]}
       style={styles.cardBtn}
     >
-      {props.children}
+      <TouchableOpacity {...props}>{props.children}</TouchableOpacity>
     </LinearGradient>
   );
 };

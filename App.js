@@ -6,6 +6,15 @@ import Splash from "./screens/Splash";
 import Home from "./screens/Home";
 import RegisterForm from "./screens/RegisterForm";
 import LoginForm from "./screens/LoginForm";
+import BuyAirtime from "./screens/BuyAirtime";
+import BuySellUSD from "./screens/BuySellUSD";
+import FundWallets from "./screens/FundWallets";
+import PayBills from "./screens/PayBills";
+import Referrals from "./screens/Referrals";
+import SendMoney from "./screens/SendMoney";
+import SupportService from "./screens/SupportService";
+import ViewTransactions from "./screens/ViewTransactions";
+import GiftCard from "./screens/GiftCard";
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -20,6 +29,15 @@ const App = () => {
         />
         <Stack.Screen name="Register" component={RegisterForm} />
         <Stack.Screen name="Login" component={LoginForm} />
+        <Stack.Screen name="Buy Airtime" component={BuyAirtime} />
+        <Stack.Screen name="Buy/Sell USD" component={BuySellUSD} />
+        <Stack.Screen name="Fund Wallets" component={FundWallets} />
+        <Stack.Screen name="Pay Bills" component={PayBills} />
+        <Stack.Screen name="Referrals" component={Referrals} />
+        <Stack.Screen name="Send Money" component={SendMoney} />
+        <Stack.Screen name="Support Service" component={SupportService} />
+        <Stack.Screen name="View Transactions" component={ViewTransactions} />
+        <Stack.Screen name="Gift Card" component={GiftCard} />
       </Stack.Navigator>
     </NavigationContainer>
   );

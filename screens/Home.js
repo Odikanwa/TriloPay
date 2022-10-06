@@ -6,6 +6,7 @@ import {
   ImageBackground,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
@@ -24,7 +25,7 @@ import {
   Orbitron_900Black,
 } from "@expo-google-fonts/orbitron";
 
-const Home = () => {
+const Home = (props) => {
   const [fontsLoaded] = useFonts({
     // Orbitron_500Medium,
     Orbitron_700Bold,
@@ -33,6 +34,9 @@ const Home = () => {
   if (!fontsLoaded) {
     return null;
   }
+  const handlePress = (path) => {
+    props.navigation.navigate(path);
+  };
   return (
     <SafeAreaView>
       <ScrollView>
@@ -88,19 +92,23 @@ const Home = () => {
             </Text>
           </View>
           <View style={styles.actionView}>
-            <ActionCard>
+            <ActionCard
+              onPress={() => {
+                props.navigation.navigate("Pay Bills");
+              }}
+            >
               <View style={styles.cardIcon}>
                 <FontAwesome5 name="file-invoice" size={32} color="black" />
               </View>
               <Text style={styles.cardText}>Pay Bills</Text>
             </ActionCard>
-            <ActionCard>
+            <ActionCard onPress={() => handlePress("Send Money")}>
               <View style={styles.cardIcon}>
                 <FontAwesome name="send-o" size={32} color="red" />
               </View>
               <Text style={styles.cardText}>Send Money</Text>
             </ActionCard>
-            <ActionCard>
+            <ActionCard onPress={() => handlePress("Fund Wallets")}>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
                   name="card-account-details-star-outline"
@@ -110,7 +118,7 @@ const Home = () => {
               </View>
               <Text style={styles.cardText}>Fund Wallets</Text>
             </ActionCard>
-            <ActionCard>
+            <ActionCard onPress={() => handlePress("Buy Airtime")}>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
                   name="phone-in-talk"
@@ -121,7 +129,11 @@ const Home = () => {
               <Text style={styles.cardText}>Buy Airtime</Text>
             </ActionCard>
           </View>
-          <View style={styles.giftCardView}>
+
+          <TouchableOpacity
+            style={styles.giftCardView}
+            onPress={() => handlePress("Gift Card")}
+          >
             <FontAwesome5 name="ribbon" size={24} color="black" />
             <Text style={styles.boldText}>Generate a Gift Card</Text>
             <MaterialCommunityIcons
@@ -129,16 +141,17 @@ const Home = () => {
               size={24}
               color="black"
             />
-          </View>
+          </TouchableOpacity>
+
           <Text style={[styles.boldText, styles.caption]}>EXTRAS</Text>
           <View style={styles.extras}>
-            <ActionCard>
+            <ActionCard onPress={() => handlePress("Buy/Sell USD")}>
               <View style={styles.cardIcon}>
                 <FontAwesome5 name="dollar-sign" size={24} color="#AB8000" />
               </View>
               <Text style={styles.cardText}>Buy/Sell USD</Text>
             </ActionCard>
-            <ActionCard>
+            <ActionCard onPress={() => handlePress("Referrals")}>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
                   name="account-multiple-plus"
@@ -148,13 +161,13 @@ const Home = () => {
               </View>
               <Text style={styles.cardText}>Referrals</Text>
             </ActionCard>
-            <ActionCard>
+            <ActionCard onPress={() => handlePress("View Transactions")}>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons name="finance" size={24} color="red" />
               </View>
               <Text style={styles.cardText}>View Transactions</Text>
             </ActionCard>
-            <ActionCard>
+            <ActionCard onPress={() => handlePress("Support Service")}>
               <View style={styles.cardIcon}>
                 <FontAwesome5 name="question" size={24} color="green" />
               </View>
