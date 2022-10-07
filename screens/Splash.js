@@ -7,9 +7,10 @@ const Splash = (props) => {
   React.useLayoutEffect(() => {
     props.navigation.setOptions({ headerShown: false });
   }, [props.navigation]);
+
   return (
     <View style={styles.container}>
-      <StatusBar style={styles.statusBar} hidden={true} />
+      <StatusBar hidden={true} backgroundColor="#1f002b" style="light" />
       <View style={styles.logo}>
         <Image
           style={styles.img}
@@ -79,5 +80,8 @@ const styles = StyleSheet.create({
   btnText: {
     color: "#1e002a",
     fontWeight: "bold",
+  },
+  statusBar: {
+    color: "red",
   },
 });
