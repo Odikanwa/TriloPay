@@ -29,7 +29,7 @@ export default ActionCard;
 
 const styles = StyleSheet.create({
   cardBtn: {
-    width: "48%",
+    width: "45%",
     marginTop: 5,
     marginBottom: 10,
     // backgroundColor: "#1e002a",

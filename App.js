@@ -20,7 +20,19 @@ const App = () => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash">
+      <Stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#59076e",
+          },
+          headerShown: false,
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen
           name="Splash"

@@ -1,7 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { PillButton } from "../components/Button";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 
 const Splash = (props) => {
   React.useLayoutEffect(() => {
@@ -10,7 +17,7 @@ const Splash = (props) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden={true} backgroundColor="#1f002b" style="light" />
+      <StatusBar hidden={true} backgroundColor="#4b025e" style="light" />
       <View style={styles.logo}>
         <Image
           style={styles.img}
@@ -80,8 +87,5 @@ const styles = StyleSheet.create({
   btnText: {
     color: "#1e002a",
     fontWeight: "bold",
-  },
-  statusBar: {
-    color: "red",
   },
 });

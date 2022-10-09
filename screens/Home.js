@@ -24,6 +24,7 @@ import {
   Orbitron_800ExtraBold,
   Orbitron_900Black,
 } from "@expo-google-fonts/orbitron";
+import Header from "../components/Header";
 
 const Home = (props) => {
   const [fontsLoaded] = useFonts({
@@ -41,6 +42,7 @@ const Home = (props) => {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
+          <Header />
           <View style={styles.card}>
             <ImageBackground
               style={styles.cardBackgroundImg}
@@ -165,7 +167,7 @@ const Home = (props) => {
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons name="finance" size={24} color="red" />
               </View>
-              <Text style={styles.cardText}>View Transactions</Text>
+              <Text style={styles.cardText}>Transactions</Text>
             </ActionCard>
             <ActionCard onPress={() => handlePress("Support Service")}>
               <View style={styles.cardIcon}>
@@ -184,7 +186,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    top: 0,
+    top: 23,
     bottom: 0,
     right: 0,
     left: 0,
@@ -311,7 +313,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 0,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
     flexWrap: "wrap",
   },
@@ -351,6 +353,6 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 10,
     borderRadius: 10,
-    justifyContent: "space-between",
+    justifyContent: "space-around",
   },
 });
