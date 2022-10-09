@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#AB8000",
     padding: 10,
-    marginVertical: 20,
+    marginVertical: 10,
     borderRadius: 20,
   },
 });

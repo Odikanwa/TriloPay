@@ -15,6 +15,7 @@ import SendMoney from "./screens/SendMoney";
 import SupportService from "./screens/SupportService";
 import ViewTransactions from "./screens/ViewTransactions";
 import GiftCard from "./screens/GiftCard";
+import PayWithAccountNum from "./screens/PayWithAccountNum";
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -50,6 +51,7 @@ const App = () => {
         <Stack.Screen name="Support Service" component={SupportService} />
         <Stack.Screen name="View Transactions" component={ViewTransactions} />
         <Stack.Screen name="Gift Card" component={GiftCard} />
+        <Stack.Screen name="Pay with Account" component={PayWithAccountNum} />
       </Stack.Navigator>
     </NavigationContainer>
   );

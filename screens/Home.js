@@ -25,6 +25,7 @@ import {
   Orbitron_900Black,
 } from "@expo-google-fonts/orbitron";
 import Header from "../components/Header";
+import { GreenNotification } from "../components/Notification";
 
 const Home = (props) => {
   const [fontsLoaded] = useFonts({
@@ -87,12 +88,11 @@ const Home = (props) => {
               </View>
             </ImageBackground>
           </View>
-          <View style={styles.notificationView}>
-            <Text style={styles.textHeader}>Notifications</Text>
+          <GreenNotification>
             <Text style={styles.msgText}>
               Hi Michael, you have one unread message. Read now...
             </Text>
-          </View>
+          </GreenNotification>
           <View style={styles.actionView}>
             <ActionCard
               onPress={() => {
@@ -278,25 +278,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
     alignSelf: "center",
-  },
-  notificationView: {
-    flex: 1,
-    height: "auto",
-    marginTop: 15,
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 10,
-    backgroundColor: "white",
-    borderWidth: 1.5,
-    borderColor: "#AB8000",
-    borderLeftWidth: 8,
-    borderLeftColor: "#AB8000",
-  },
-  textHeader: {
-    color: "#1e002a",
-    fontWeight: "bold",
-    marginTop: 5,
-    marginLeft: 10,
   },
   msgText: {
     color: "black",
