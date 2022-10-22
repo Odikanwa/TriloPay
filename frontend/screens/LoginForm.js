@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     zIndex: -1,
     flex: 1,
     flexDirection: "column",
-
     alignItems: "center",
     backgroundColor: "#59076e",
   },

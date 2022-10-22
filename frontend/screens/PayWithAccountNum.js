@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Modal } from "react-native";
 import React from "react";
 import Header from "../components/Header";
 import Input from "../components/Input";
 import { PillButton } from "../components/Button";
 
-const PayWithAccountNum = () => {
+const PayWithAccountNum = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -17,9 +17,9 @@ const PayWithAccountNum = () => {
         <Input placeholder="Bank" keyboardType="default" />
         <Input placeholder="Purpose" keyboardType="default" />
         <PillButton
-          onPress={() => {
-            props.navigation.navigate("Home");
-          }}
+        //   onPress={() => {
+        //     props.navigation.navigate("Home");
+        //   }}
         >
           <Text style={styles.btnText}>SUBMIT</Text>
         </PillButton>
