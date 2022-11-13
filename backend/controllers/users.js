@@ -1,16 +1,22 @@
 import { User } from "../models/users.js";
+
+//Generate account number
+// const AccountNum = () => {
+//   const randomNum = Math.random().toString();
+//   randomNum.substring(2, 10);
+//   return randomNum;
+// };
+
 // Create User
 export const createUser = (req, res) => {
   const body = req.body;
   console.log("You have landed on the create user API. see body below:");
-  console.log(body);
-  const user = new User(body);
-  // const user = new User({
-  //   firstName: "Joe",
-  //   lastName: "Odk",
-  //   email: "joe@gmail.com",
-  //   password: "oldme",
-  // });
+
+  //Generate a random Number
+  const randomNum = Math.random();
+  const accountNum = randomNum.toString().slice(2, 12);
+
+  const user = new User({ ...body, accountNumber: accountNum });
   console.log(user);
 
   user

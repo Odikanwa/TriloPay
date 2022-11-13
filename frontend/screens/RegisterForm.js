@@ -6,6 +6,7 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
+  Modal,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Axios from "axios";
@@ -30,6 +31,7 @@ const schema = yup.object().shape({
 });
 
 const RegisterForm = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const url = "http://192.168.43.35:5000/users/create";
 
   const {
@@ -66,6 +68,7 @@ const RegisterForm = () => {
       });
       const json = await response.json();
       console.log(json);
+      setModalVisible(true);
       return json;
     } catch (error) {
       console.error(error);
@@ -76,6 +79,31 @@ const RegisterForm = () => {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text>Hi Michael!</Text>
+                <Text>
+                  Thank you for signing up. A code been sent to your email.
+                </Text>
+                <Input placeholder="Enter Code" />
+                <PillButton onPress={() => setModalVisible(!modalVisible)}>
+                  <Text type="submit" style={styles.btnText}>
+                    SUBMIT
+                  </Text>
+                </PillButton>
+              </View>
+            </View>
+          </Modal>
+
           <StatusBar style={styles.statusBar} hidden={false} />
           <View style={styles.header}>
             <Header />
@@ -227,5 +255,28 @@ const styles = StyleSheet.create({
   },
   required: {
     color: "red",
+  },
+  centeredView: {
+    height: "100%",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
