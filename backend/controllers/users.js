@@ -10,14 +10,14 @@ import { User } from "../models/users.js";
 // Create User
 export const createUser = (req, res) => {
   const body = req.body;
-  console.log("You have landed on the create user API. see body below:");
+  console.log("You have reached the create user API. see body below:");
 
   //Generate a random Number
   const randomNum = Math.random();
   const accountNum = randomNum.toString().slice(2, 12);
+  const otp = randomNum.toString().slice(2, 6);
 
-  const user = new User({ ...body, accountNumber: accountNum });
-  console.log(user);
+  const user = new User({ ...body, accountNumber: accountNum, OTP: otp });
 
   user
     .save()

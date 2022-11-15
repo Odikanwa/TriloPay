@@ -1,14 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { PillButton } from "../components/Button";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 
 const Splash = (props) => {
   React.useLayoutEffect(() => {

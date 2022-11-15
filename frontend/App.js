@@ -5,6 +5,7 @@ import React from "react";
 import Splash from "./screens/Splash";
 import Home from "./screens/Home";
 import RegisterForm from "./screens/RegisterForm";
+import CompleteRegForm from "./screens/CompleteRegForm";
 import LoginForm from "./screens/LoginForm";
 import BuyAirtime from "./screens/BuyAirtime";
 import BuySellUSD from "./screens/BuySellUSD";
@@ -41,6 +42,10 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Register" component={RegisterForm} />
+        <Stack.Screen
+          name="Complete Registration"
+          component={CompleteRegForm}
+        />
         <Stack.Screen name="Login" component={LoginForm} />
         <Stack.Screen name="Buy Airtime" component={BuyAirtime} />
         <Stack.Screen name="Buy/Sell USD" component={BuySellUSD} />

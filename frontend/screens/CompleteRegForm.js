@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,11 @@ import {
   SafeAreaView,
   ScrollView,
   Modal,
+  Button,
+  Image,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { useRoute } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import Axios from "axios";
 import { PillButton } from "../components/Button";
@@ -16,61 +20,80 @@ import * as yup from "yup";
 import Input from "../components/Input";
 import Header from "../components/Header";
 
-const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+// const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+
+//TODO
+// Collect Input and update against the users schema(find user using OTP value)
 
 const schema = yup.object().shape({
-  firstName: yup.string().required("Fist name required"),
-  lastName: yup.string().required("Last name is required"),
-  email: yup.string().email().required("Email is required"),
-  password: yup
-    .string()
-    .min(4, "Password is too short")
-    .max(15, "Password is too long")
-    .required(),
-  confirmPassword: yup.string().oneOf([yup.ref("password"), null]),
+  phoneNumber: yup.string().required("Phone number is required"),
+  address: yup.string().required("Address is required"),
+  BVN: yup.string().required("BVN is required"),
+  NIN: yup.string().required("NIN is required"),
+  photo: yup.mixed().required("Please select a file"),
 });
 
-const RegisterForm = (props) => {
+const RegisterForm = () => {
+  const [image, setImage] = useState(null);
+
+  const route = useRoute();
   const [modalVisible, setModalVisible] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [otpInput, setOtpInput] = useState("");
   const url = "http://192.168.43.35:5000/users/create";
 
   const {
+    register,
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      phoneNumber: "",
+      address: "",
+      BVN: "",
+      NIN: "",
+      photo: "",
     },
     resolver: yupResolver(schema),
   });
 
+  const pickImage = async () => {
+    try {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      console.log(result);
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit = async (data) => {
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: "PATCH",
         headers: {
           Accept:
             "application/json, text/plain, multipart/form-data, application/x-www-form-urlencoded, */*",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          password: data.password,
-          confirmPassword: data.confirmPassword,
+          phoneNumber: data.phoneNumber,
+          address: data.address,
+          BVN: data.BVN,
+          NIN: data.NIN,
+          photo: data.photo,
         }),
       });
       const json = await response.json();
       console.log(json);
-      setOtp(json.OTP);
       setModalVisible(true);
       return json;
     } catch (error) {
@@ -78,17 +101,14 @@ const RegisterForm = (props) => {
     }
   };
 
-  const onSubmitOTP = (path) => {
-    if (otp == otpInput && errors.OTP == null) {
-      props.navigation.navigate(path, { otpInput });
-    }
-  };
+  //   const mySubmit = () => {
+  //     console.log(route.params.otpInput);
+  //   };
 
   return (
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
-          {/* MODAL for OTP authentication  */}
           <Modal
             animationType="slide"
             transparent={true}
@@ -101,31 +121,10 @@ const RegisterForm = (props) => {
               <View style={styles.modalView}>
                 <Text>Hi Michael!</Text>
                 <Text>
-                  Thank you for signing up. A code has been sent to your email.
+                  Thank you for signing up. A code been sent to your email.
                 </Text>
-                <Controller
-                  control={control}
-                  rules={{
-                    maxLength: 4,
-                    required: true,
-                  }}
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      placeholder="Enter Code"
-                      onChangeText={(otpInput) => setOtpInput(otpInput)}
-                      value={otpInput}
-                    />
-                  )}
-                  name="OTP"
-                />
-                {otpInput.length < 4 && <Text style={styles.required}></Text>}
-                {otpInput.length >= 4 && otp !== otpInput && (
-                  <Text style={styles.required}>OTP is invalid</Text>
-                )}
-
-                <PillButton
-                  onPress={() => onSubmitOTP("Complete Registration")}
-                >
+                <Input placeholder="Enter Code" />
+                <PillButton onPress={() => setModalVisible(!modalVisible)}>
                   <Text type="submit" style={styles.btnText}>
                     SUBMIT
                   </Text>
@@ -142,104 +141,105 @@ const RegisterForm = (props) => {
             <Controller
               control={control}
               rules={{
-                maxLength: 50,
+                maxLength: 100,
                 required: true,
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
-                  placeholder="First name"
+                  placeholder="Phone Number"
                   onChangeText={onChange}
                   value={value}
                 />
               )}
-              name="firstName"
+              name="phoneNumber"
             />
-            {errors.firstName && (
-              <Text style={styles.required}>{errors.firstName.message}</Text>
+            {errors.phoneNumber && (
+              <Text style={styles.required}>{errors.phoneNumber.message}</Text>
             )}
 
             <Controller
               control={control}
               rules={{
-                maxLength: 50,
+                maxLength: 100,
                 required: true,
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
-                  placeholder="Last name"
+                  placeholder="Address"
                   onChangeText={onChange}
                   value={value}
                 />
               )}
-              name="lastName"
+              name="address"
             />
-            {errors.lastName && (
-              <Text style={styles.required}>{errors.lastName.message}</Text>
+            {errors.address && (
+              <Text style={styles.required}>{errors.address.message}</Text>
             )}
 
             <Controller
               control={control}
               rules={{
-                maxLength: 50,
-                required: {
-                  value: true,
-                  message: "This is required",
-                },
+                maxLength: 100,
+                required: true,
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
-                  placeholder="Email"
+                  placeholder="BVN"
                   onChangeText={onChange}
                   value={value}
                 />
               )}
-              name="email"
+              name="BVN"
             />
-            {errors.email && (
-              <Text style={styles.required}>{errors.email.message}</Text>
+            {errors.BVN && (
+              <Text style={styles.required}>{errors.BVN.message}</Text>
             )}
 
             <Controller
               control={control}
               rules={{
-                minLength: 4,
-                maxLength: 15,
+                maxLength: 100,
                 required: true,
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
-                  placeholder="Password"
+                  placeholder="NIN"
                   onChangeText={onChange}
                   value={value}
                 />
               )}
-              name="password"
+              name="NIN"
             />
-            {errors.password && (
-              <Text style={styles.required}>{errors.password.message}</Text>
+            {errors.NIN && (
+              <Text style={styles.required}>{errors.NIN.message}</Text>
             )}
 
-            <Controller
+            <View style={styles.photoView}>
+              <Button title="Upload Photo" onPress={pickImage} />
+              {image && <Image source={{ uri: image }} style={styles.photo} />}
+            </View>
+
+            {/* <Controller
               control={control}
               rules={{
-                minLength: 4,
-                maxLength: 15,
+                maxLength: 100,
                 required: true,
               }}
+              type="file"
               render={({ field: { onChange, value } }) => (
                 <Input
-                  placeholder="Confirm Password"
+                  placeholder="Upload Photo"
                   onChangeText={onChange}
                   value={value}
                 />
               )}
-              name="confirmPassword"
+              name="photo"
             />
-            {errors.confirmPassword && (
-              <Text style={styles.required}>Passwords should match!</Text>
-            )}
+            {errors.uploadFile && (
+              <Text style={styles.required}>File is invalid</Text>
+            )} */}
 
-            <PillButton title="Submit" onPress={handleSubmit(onSubmit)}>
+            <PillButton title="Submit">
               <Text type="submit" style={styles.btnText}>
                 SUBMIT
               </Text>
@@ -310,5 +310,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  photoView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  photo: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    marginTop: 20,
   },
 });

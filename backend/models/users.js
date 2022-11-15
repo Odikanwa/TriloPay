@@ -49,6 +49,10 @@ const userSchema = new Schema(
       contentType: String,
       required: false,
     },
+    OTP: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );
