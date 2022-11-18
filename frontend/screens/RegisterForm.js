@@ -34,6 +34,7 @@ const RegisterForm = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpInput, setOtpInput] = useState("");
+  const [id, setId] = useState("");
   const url = "http://192.168.43.35:5000/users/create";
 
   const {
@@ -71,6 +72,7 @@ const RegisterForm = (props) => {
       const json = await response.json();
       console.log(json);
       setOtp(json.OTP);
+      setId(json._id);
       setModalVisible(true);
       return json;
     } catch (error) {
@@ -80,7 +82,7 @@ const RegisterForm = (props) => {
 
   const onSubmitOTP = (path) => {
     if (otp == otpInput && errors.OTP == null) {
-      props.navigation.navigate(path, { otpInput });
+      props.navigation.navigate(path, { otpInput, id });
     }
   };
 

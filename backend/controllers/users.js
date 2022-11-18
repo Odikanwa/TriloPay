@@ -81,20 +81,38 @@ export const deleteUser = (req, res) => {
 // Update user with ID
 export const updateUser = (req, res) => {
   User.findByIdAndUpdate(req.params.id, {
-    firstName: "Jane",
-    lastName: "Odk",
-    phoneNumber: "07000100103",
-    email: "jane@gmail.com",
-    password: "janeme",
+    phoneNumber: req.body.phoneNumber,
+    address: req.body.address,
+    BVN: req.body.BVN,
+    NIN: req.body.NIN,
+    photo: req.body.photo,
   })
-    .then(() => {
-      // res.send(`User with the id ${request.params.id} has been updated`);
-      res.redirect("/users");
-      console.log("ID updated");
+    .then((result) => {
+      res.send(result);
+      // res.redirect("/users");
+      console.log(
+        `User with the id ${req.params.id} has been updated successfully`
+      );
     })
     .catch((err) => {
       console.log(err);
     });
+
+  // User.findByIdAndUpdate(req.params.id, {
+  //   firstName: "Jane",
+  //   lastName: "Odk",
+  //   phoneNumber: "07000100103",
+  //   email: "jane@gmail.com",
+  //   password: "janeme",
+  // })
+  //   .then(() => {
+  //     // res.send(`User with the id ${request.params.id} has been updated`);
+  //     res.redirect("/users");
+  //     console.log("ID updated");
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 
   // const { id } = req.params;
   // const { firstName, lastName, age } = req.params;

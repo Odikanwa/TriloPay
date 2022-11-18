@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -9,9 +9,10 @@ import {
   Modal,
   Button,
   Image,
+  BackHandler,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import Axios from "axios";
 import { PillButton } from "../components/Button";
@@ -33,12 +34,13 @@ const schema = yup.object().shape({
   photo: yup.mixed().required("Please select a file"),
 });
 
-const RegisterForm = () => {
+const CompleteRegForm = (props) => {
   const [image, setImage] = useState(null);
 
   const route = useRoute();
+  const id = route.params.id;
   const [modalVisible, setModalVisible] = useState(false);
-  const url = "http://192.168.43.35:5000/users/create";
+  const url = `http://192.168.43.35:5000/users/update/${id}`;
 
   const {
     register,
@@ -69,6 +71,10 @@ const RegisterForm = () => {
       console.log(result);
       if (!result.cancelled) {
         setImage(result.uri);
+        setModalVisible(false);
+      }
+      if (result.cancelled) {
+        setModalVisible(false);
       }
     } catch (error) {
       console.error(error);
@@ -89,21 +95,44 @@ const RegisterForm = () => {
           address: data.address,
           BVN: data.BVN,
           NIN: data.NIN,
-          photo: data.photo,
+          photo: image,
+          id,
         }),
       });
       const json = await response.json();
-      console.log(json);
       setModalVisible(true);
+      console.log(json);
       return json;
     } catch (error) {
       console.error(error);
     }
   };
 
+  const onModalClick = (path) => {
+    setModalVisible(!modalVisible);
+    props.navigation.navigate(path);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        setModalVisible(false);
+      };
+
+      const subscription = BackHandler.addEventListener(
+        "hardwareBackPress",
+        onBackPress
+      );
+
+      return () => subscription.remove();
+    }, [modalVisible])
+  );
+
   //   const mySubmit = () => {
   //     console.log(route.params.otpInput);
   //   };
+
+  //END modal life cycle and not making it invisible
 
   return (
     <SafeAreaView>
@@ -121,12 +150,12 @@ const RegisterForm = () => {
               <View style={styles.modalView}>
                 <Text>Hi Michael!</Text>
                 <Text>
-                  Thank you for signing up. A code been sent to your email.
+                  Congratulations. You have completed your registration. We are
+                  glad to have you onboard!
                 </Text>
-                <Input placeholder="Enter Code" />
-                <PillButton onPress={() => setModalVisible(!modalVisible)}>
+                <PillButton onPress={() => onModalClick("Login")}>
                   <Text type="submit" style={styles.btnText}>
-                    SUBMIT
+                    SIGN IN
                   </Text>
                 </PillButton>
               </View>
@@ -239,7 +268,7 @@ const RegisterForm = () => {
               <Text style={styles.required}>File is invalid</Text>
             )} */}
 
-            <PillButton title="Submit">
+            <PillButton title="Submit" onPress={handleSubmit(onSubmit)}>
               <Text type="submit" style={styles.btnText}>
                 SUBMIT
               </Text>
@@ -251,7 +280,7 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default CompleteRegForm;
 
 const styles = StyleSheet.create({
   container: {
