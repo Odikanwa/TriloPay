@@ -78,6 +78,19 @@ export const deleteUser = (req, res) => {
   //   res.send(`User with the id ${id} has been deleted from the database`);
 };
 
+export const getUserByEmail = (req, res) => {
+  User.findOne({ email: req.body.email, password: req.body.password })
+    .exec()
+    .then((result) => {
+      res.send(result);
+      console.log(req.body.email, req.body.password);
+      console.log("You have reached FindUserBy Email route");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 // Update user with ID
 export const updateUser = (req, res) => {
   User.findByIdAndUpdate(req.params.id, {

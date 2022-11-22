@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,10 +9,9 @@ import {
   Modal,
   Button,
   Image,
-  BackHandler,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { useRoute, useFocusEffect } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import Axios from "axios";
 import { PillButton } from "../components/Button";
@@ -20,11 +19,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "../components/Input";
 import Header from "../components/Header";
-
-// const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
-
-//TODO
-// Collect Input and update against the users schema(find user using OTP value)
 
 const schema = yup.object().shape({
   phoneNumber: yup.string().required("Phone number is required"),
@@ -112,27 +106,6 @@ const CompleteRegForm = (props) => {
     setModalVisible(!modalVisible);
     props.navigation.navigate(path);
   };
-
-  useFocusEffect(
-    useCallback(() => {
-      const onBackPress = () => {
-        setModalVisible(false);
-      };
-
-      const subscription = BackHandler.addEventListener(
-        "hardwareBackPress",
-        onBackPress
-      );
-
-      return () => subscription.remove();
-    }, [modalVisible])
-  );
-
-  //   const mySubmit = () => {
-  //     console.log(route.params.otpInput);
-  //   };
-
-  //END modal life cycle and not making it invisible
 
   return (
     <SafeAreaView>
@@ -247,26 +220,6 @@ const CompleteRegForm = (props) => {
               <Button title="Upload Photo" onPress={pickImage} />
               {image && <Image source={{ uri: image }} style={styles.photo} />}
             </View>
-
-            {/* <Controller
-              control={control}
-              rules={{
-                maxLength: 100,
-                required: true,
-              }}
-              type="file"
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  placeholder="Upload Photo"
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="photo"
-            />
-            {errors.uploadFile && (
-              <Text style={styles.required}>File is invalid</Text>
-            )} */}
 
             <PillButton title="Submit" onPress={handleSubmit(onSubmit)}>
               <Text type="submit" style={styles.btnText}>
