@@ -33,6 +33,7 @@ const CompleteRegForm = (props) => {
 
   const route = useRoute();
   const id = route.params.id;
+  console.log(id);
   const [modalVisible, setModalVisible] = useState(false);
   const url = `http://192.168.43.35:5000/users/update/${id}`;
 

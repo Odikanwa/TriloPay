@@ -82,9 +82,17 @@ export const getUserByEmail = (req, res) => {
   User.findOne({ email: req.body.email, password: req.body.password })
     .exec()
     .then((result) => {
-      res.send(result);
-      console.log(req.body.email, req.body.password);
+      if (result == null || result == "") {
+        result = JSON.stringify({
+          value: "null",
+          msg: "No record found",
+        });
+        res.send(result);
+      } else {
+        res.send(result);
+      }
       console.log("You have reached FindUserBy Email route");
+      console.log(req.body.email, req.body.password);
     })
     .catch((error) => {
       console.log(error);
@@ -110,30 +118,4 @@ export const updateUser = (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-
-  // User.findByIdAndUpdate(req.params.id, {
-  //   firstName: "Jane",
-  //   lastName: "Odk",
-  //   phoneNumber: "07000100103",
-  //   email: "jane@gmail.com",
-  //   password: "janeme",
-  // })
-  //   .then(() => {
-  //     // res.send(`User with the id ${request.params.id} has been updated`);
-  //     res.redirect("/users");
-  //     console.log("ID updated");
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-
-  // const { id } = req.params;
-  // const { firstName, lastName, age } = req.params;
-  // const user = users.find((user) => users.id === id);
-
-  // if (firstName) user.firstName = firstName;
-  // if (lastName) user.lastName = lastName;
-  // if (age) user.age = age;
-
-  // res.send(`User with the id ${id} has been updated`);
 };

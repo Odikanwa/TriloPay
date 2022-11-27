@@ -8,7 +8,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import { useRoute } from "@react-navigation/native";
+import React, { useContext } from "react";
+import { UserContext } from "../components/Context";
 import { useFonts } from "expo-font";
 import ActionCard from "../components/ActionCard";
 import {
@@ -28,6 +30,14 @@ import Header from "../components/Header";
 import { GreenNotification } from "../components/Notification";
 
 const Home = (props) => {
+  // const userDetails = useContext(UserContext);
+  const route = useRoute();
+  console.log("@HOMESCREEN params:", route.params);
+  // const id = route.params.id;
+  // console.log(id);
+  // const { accountNumber, email, firstName, lastName } = route.params;
+  // console.log("@HOMESCREEN: User object is is:", route.params);
+  // console.log(route.params);
   const [fontsLoaded] = useFonts({
     // Orbitron_500Medium,
     Orbitron_700Bold,
@@ -90,7 +100,7 @@ const Home = (props) => {
           </View>
           <GreenNotification>
             <Text style={styles.msgText}>
-              Hi Michael, you have one unread message. Read now...
+              Hi {} you have one unread message. Read now...
             </Text>
           </GreenNotification>
           <View style={styles.actionView}>

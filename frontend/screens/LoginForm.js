@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useReducer } from "react";
 import {
   View,
   Text,
@@ -9,10 +9,11 @@ import {
 } from "react-native";
 // import { useRoute } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
-import Axios from "axios";
 import { PillButton } from "../components/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { UserContext } from "../components/Context";
+import { INITIAL_STATE, loginReducer } from "../components/Reducer";
 import Input from "../components/Input";
 import Header from "../components/Header";
 
@@ -21,14 +22,14 @@ const schema = yup.object().shape({
   password: yup.string().min(4).max(15).required("Password is required"),
 });
 
-const LoginForm = () => {
-  const [emailInput, setEmailInput] = useState("");
-  const [errorText, setErrorText] = useState("");
+const LoginForm = (props) => {
+  const [state, dispatch] = useReducer(loginReducer, INITIAL_STATE);
+  // const [errorText, setErrorText] = useState("");
+  // const [id, setId] = useState(null);
   // const route = useRoute();
   const url = "http://192.168.43.35:5000/users/email";
 
   const {
-    register,
     control,
     handleSubmit,
     formState: { errors },
@@ -42,6 +43,7 @@ const LoginForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      dispatch({ type: "LOGIN_START" });
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -55,19 +57,24 @@ const LoginForm = () => {
         }),
       });
       const json = await response.json();
-      setEmailInput(json);
-      console.log(json);
-      return json;
+      if (json.value == "null") {
+        dispatch({ type: "LOGIN_ERROR" });
+        handlePress("Login");
+      } else {
+        console.log("@JSON RESPONSE: ", json);
+        dispatch({ type: "LOGIN_SUCCESS", payload: json });
+        console.log("@STATE: ", state);
+        handlePress("Home");
+        return json;
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
-  useEffect(() => {
-    if (emailInput == null) {
-      setErrorText("Email or password is incorrect");
-    }
-  }, [errorText]);
+  const handlePress = (path) => {
+    props.navigation.navigate(path, state.user._id);
+  };
 
   return (
     <SafeAreaView>
@@ -79,7 +86,7 @@ const LoginForm = () => {
           </View>
           <View style={styles.inputs}>
             <Text style={styles.caption}>SIGN IN</Text>
-            <Text style={styles.required}>{errorText}</Text>
+            <Text style={styles.required}>{state.errorText}</Text>
             <Controller
               control={control}
               rules={{
@@ -168,6 +175,8 @@ const styles = StyleSheet.create({
   },
   required: {
     color: "red",
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   caption: {
     fontWeight: "bold",
