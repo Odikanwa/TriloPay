@@ -108,7 +108,7 @@ const RegisterForm = (props) => {
                 <Controller
                   control={control}
                   rules={{
-                    maxLength: 4,
+                    maxLength: 5,
                     required: true,
                   }}
                   render={({ field: { onChange, value } }) => (
@@ -120,8 +120,8 @@ const RegisterForm = (props) => {
                   )}
                   name="OTP"
                 />
-                {otpInput.length < 4 && <Text style={styles.required}></Text>}
-                {otpInput.length >= 4 && otp !== otpInput && (
+                {otpInput.length < 5 && <Text style={styles.required}></Text>}
+                {otpInput.length >= 5 && otp !== otpInput && (
                   <Text style={styles.required}>OTP is invalid</Text>
                 )}
 

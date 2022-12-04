@@ -12,7 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 import { PillButton } from "../components/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { UserContext } from "../components/Context";
+import { UserContext, UserProvider } from "../components/UserContext";
 import { INITIAL_STATE, loginReducer } from "../components/Reducer";
 import Input from "../components/Input";
 import Header from "../components/Header";
@@ -23,7 +23,8 @@ const schema = yup.object().shape({
 });
 
 const LoginForm = (props) => {
-  const [state, dispatch] = useReducer(loginReducer, INITIAL_STATE);
+  const { state, dispatch } = useContext(UserContext);
+  // const [state, dispatch] = useReducer(loginReducer, INITIAL_STATE);
   // const [errorText, setErrorText] = useState("");
   // const [id, setId] = useState(null);
   // const route = useRoute();
@@ -65,15 +66,15 @@ const LoginForm = (props) => {
         dispatch({ type: "LOGIN_SUCCESS", payload: json });
         console.log("@STATE: ", state);
         handlePress("Home");
-        return json;
       }
+      return json;
     } catch (error) {
       console.error(error);
     }
   };
 
   const handlePress = (path) => {
-    props.navigation.navigate(path, state.user._id);
+    setTimeout(() => props.navigation.navigate(path), 20);
   };
 
   return (

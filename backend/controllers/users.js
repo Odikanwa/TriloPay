@@ -13,11 +13,21 @@ export const createUser = (req, res) => {
   console.log("You have reached the create user API. see body below:");
 
   //Generate a random Number
-  const randomNum = Math.random();
-  const accountNum = randomNum.toString().slice(2, 12);
-  const otp = randomNum.toString().slice(2, 6);
+  const randomNum1 = Math.random();
+  const randomNum2 = Math.random();
+  const accountNum = randomNum1.toString().slice(2, 12);
+  const cardNumber = randomNum2.toString().slice(2, 18);
+  const cvv = (randomNum1 + randomNum2).toString().slice(2, 5);
+  const otp = (randomNum2 + randomNum2).toString().slice(6, 11);
 
-  const user = new User({ ...body, accountNumber: accountNum, OTP: otp });
+  const user = new User({
+    ...body,
+    accountNumber: accountNum,
+    balance: "0.00",
+    cardNumber: cardNumber,
+    CVV: cvv,
+    OTP: otp,
+  });
 
   user
     .save()

@@ -22,10 +22,22 @@ const userSchema = new Schema(
     },
     accountNumber: {
       type: String,
-      required: true,
+      required: false,
+    },
+    cardNumber: {
+      type: String,
+      required: false,
+    },
+    CVV: {
+      type: String,
+      required: false,
+    },
+    cardPIN: {
+      type: String,
+      required: false,
     },
     balance: {
-      type: Number,
+      type: String,
       required: false,
     },
     phoneNumber: {

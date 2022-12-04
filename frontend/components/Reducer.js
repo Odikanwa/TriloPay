@@ -47,7 +47,7 @@ export const loginReducer = (state, action) => {
         errorText: "Your email or password is incorrect. Please try again.",
         isLoading: false,
       };
-    default:
-      return state;
+    // default:
+    //   return state;
   }
 };

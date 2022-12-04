@@ -25,6 +25,7 @@ const schema = yup.object().shape({
   address: yup.string().required("Address is required"),
   BVN: yup.string().required("BVN is required"),
   NIN: yup.string().required("NIN is required"),
+  cardPIN: yup.string().required("Card PIN is required"),
   photo: yup.mixed().required("Please select a file"),
 });
 
@@ -122,7 +123,7 @@ const CompleteRegForm = (props) => {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text>Hi Michael!</Text>
+                <Text>Hello there!</Text>
                 <Text>
                   Congratulations. You have completed your registration. We are
                   glad to have you onboard!
@@ -215,6 +216,25 @@ const CompleteRegForm = (props) => {
             />
             {errors.NIN && (
               <Text style={styles.required}>{errors.NIN.message}</Text>
+            )}
+
+            <Controller
+              control={control}
+              rules={{
+                maxLength: 100,
+                required: true,
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  placeholder="Card PIN"
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="cardPIN"
+            />
+            {errors.cardPIN && (
+              <Text style={styles.required}>{errors.cardPIN.message}</Text>
             )}
 
             <View style={styles.photoView}>

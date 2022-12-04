@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import React, { useContext } from "react";
-import { UserContext } from "../components/Context";
+import React, { useContext, useEffect } from "react";
+import { UserContext, UserProvider } from "../components/UserContext";
 import { useFonts } from "expo-font";
 import ActionCard from "../components/ActionCard";
 import {
@@ -30,14 +30,8 @@ import Header from "../components/Header";
 import { GreenNotification } from "../components/Notification";
 
 const Home = (props) => {
-  // const userDetails = useContext(UserContext);
-  const route = useRoute();
-  console.log("@HOMESCREEN params:", route.params);
-  // const id = route.params.id;
-  // console.log(id);
-  // const { accountNumber, email, firstName, lastName } = route.params;
-  // console.log("@HOMESCREEN: User object is is:", route.params);
-  // console.log(route.params);
+  const { state, dispatch } = useContext(UserContext);
+  console.log("@HOMESCREEN STATE: ", state);
   const [fontsLoaded] = useFonts({
     // Orbitron_500Medium,
     Orbitron_700Bold,
@@ -49,6 +43,18 @@ const Home = (props) => {
   const handlePress = (path) => {
     props.navigation.navigate(path);
   };
+  //Split Card number into four 4-digit groups
+  const cardNumRaw = state.user.cardNumber;
+  const CardNumSplit = cardNumRaw.match(/\d{1,4}/g);
+  console.log(state.user.balance);
+  const cardNumber =
+    CardNumSplit[0] +
+    " " +
+    CardNumSplit[1] +
+    " " +
+    CardNumSplit[2] +
+    " " +
+    CardNumSplit[3];
   return (
     <SafeAreaView>
       <ScrollView>
@@ -63,7 +69,9 @@ const Home = (props) => {
             >
               <View style={styles.flexRow}>
                 <View style={styles.balanceTextView}>
-                  <Text style={styles.balanceText}>₦250, 500.76</Text>
+                  <Text style={styles.balanceText}>
+                    {state.user.balance + " " + "NGN"}
+                  </Text>
                 </View>
                 <View style={styles.wifiImg}>
                   <MaterialCommunityIcons
@@ -80,9 +88,13 @@ const Home = (props) => {
                 />
                 <Text style={styles.violetText}>Debit</Text>
               </View>
-              <Text style={styles.acctNumText}>1111 2222 3333 4444</Text>
+              <Text style={styles.acctNumText}>{cardNumber}</Text>
               <Text style={styles.centeredWhiteText}>
-                MICHAEL CHIMEZIE ODIKANWA
+                {(
+                  state.user.firstName +
+                  " " +
+                  state.user.lastName
+                ).toUpperCase()}
               </Text>
               <View style={styles.logoWrapper}>
                 <Text style={styles.centeredWhiteText}>
@@ -100,7 +112,8 @@ const Home = (props) => {
           </View>
           <GreenNotification>
             <Text style={styles.msgText}>
-              Hi {} you have one unread message. Read now...
+              Hi {state.user.firstName}, you have one unread message. Read
+              now...
             </Text>
           </GreenNotification>
           <View style={styles.actionView}>
@@ -222,7 +235,7 @@ const styles = StyleSheet.create({
     height: "auto",
     flexDirection: "row",
     justifyContent: "space-between",
-    margin: 10,
+    margin: 5,
     marginBottom: 5,
   },
   boldText: {
@@ -233,10 +246,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   balanceTextView: {
-    height: 30,
+    height: 25,
     width: "auto",
     backgroundColor: "#1e002a",
-    paddingBottom: 5,
+    paddingBottom: 0,
     paddingRight: 8,
     paddingLeft: 8,
 
@@ -244,7 +257,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   balanceText: {
-    fontSize: 20,
+    fontSize: 18,
     color: "white",
     fontWeight: "bold",
   },

@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useMemo, useReducer } from "react";
 import Splash from "./screens/Splash";
 import Home from "./screens/Home";
 import RegisterForm from "./screens/RegisterForm";
@@ -17,12 +17,13 @@ import SupportService from "./screens/SupportService";
 import ViewTransactions from "./screens/ViewTransactions";
 import GiftCard from "./screens/GiftCard";
 import PayWithAccountNum from "./screens/PayWithAccountNum";
-import { UserContext } from "./components/Context";
+import { UserProvider } from "./components/UserContext";
+import { INITIAL_STATE, loginReducer } from "./components/Reducer";
 
-const App = (props) => {
+const App = () => {
   const Stack = createNativeStackNavigator();
   return (
-    <UserContext.Provider>
+    <UserProvider>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Splash"
@@ -61,7 +62,7 @@ const App = (props) => {
           <Stack.Screen name="Pay with Account" component={PayWithAccountNum} />
         </Stack.Navigator>
       </NavigationContainer>
-    </UserContext.Provider>
+    </UserProvider>
   );
 };
 
