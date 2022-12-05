@@ -112,7 +112,7 @@ const Home = (props) => {
           </View>
           <GreenNotification>
             <Text style={styles.msgText}>
-              Hi {state.user.firstName}, you have one unread message. Read
+              Hi {state.user.firstName}, you have (1) unread message. Read
               now...
             </Text>
           </GreenNotification>
@@ -123,13 +123,13 @@ const Home = (props) => {
               }}
             >
               <View style={styles.cardIcon}>
-                <FontAwesome5 name="file-invoice" size={32} color="black" />
+                <FontAwesome5 name="file-invoice" size={32} color="#fcc201" />
               </View>
               <Text style={styles.cardText}>Pay Bills</Text>
             </ActionCard>
             <ActionCard onPress={() => handlePress("Send Money")}>
               <View style={styles.cardIcon}>
-                <FontAwesome name="send-o" size={32} color="red" />
+                <FontAwesome name="send-o" size={32} color="#fcc201" />
               </View>
               <Text style={styles.cardText}>Send Money</Text>
             </ActionCard>
@@ -138,7 +138,7 @@ const Home = (props) => {
                 <MaterialCommunityIcons
                   name="card-account-details-star-outline"
                   size={32}
-                  color="red"
+                  color="#fcc201"
                 />
               </View>
               <Text style={styles.cardText}>Fund Wallets</Text>
@@ -148,7 +148,7 @@ const Home = (props) => {
                 <MaterialCommunityIcons
                   name="phone-in-talk"
                   size={32}
-                  color="green"
+                  color="#fcc201"
                 />
               </View>
               <Text style={styles.cardText}>Buy Airtime</Text>
@@ -172,7 +172,7 @@ const Home = (props) => {
           <View style={styles.extras}>
             <ActionCard onPress={() => handlePress("Buy/Sell USD")}>
               <View style={styles.cardIcon}>
-                <FontAwesome5 name="dollar-sign" size={24} color="#AB8000" />
+                <FontAwesome5 name="dollar-sign" size={24} color="#fcc201" />
               </View>
               <Text style={styles.cardText}>Buy/Sell USD</Text>
             </ActionCard>
@@ -181,20 +181,24 @@ const Home = (props) => {
                 <MaterialCommunityIcons
                   name="account-multiple-plus"
                   size={24}
-                  color="black"
+                  color="#fcc201"
                 />
               </View>
               <Text style={styles.cardText}>Referrals</Text>
             </ActionCard>
             <ActionCard onPress={() => handlePress("View Transactions")}>
               <View style={styles.cardIcon}>
-                <MaterialCommunityIcons name="finance" size={24} color="red" />
+                <MaterialCommunityIcons
+                  name="finance"
+                  size={24}
+                  color="#fcc201"
+                />
               </View>
               <Text style={styles.cardText}>Transactions</Text>
             </ActionCard>
             <ActionCard onPress={() => handlePress("Support Service")}>
               <View style={styles.cardIcon}>
-                <FontAwesome5 name="question" size={24} color="green" />
+                <FontAwesome5 name="question" size={24} color="#fcc201" />
               </View>
               <Text style={styles.cardText}>Support Service</Text>
             </ActionCard>
@@ -285,12 +289,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 5,
   },
   logo: {
     height: "auto",
     flexDirection: "row",
-    margin: 10,
+    margin: 5,
   },
   logoImg: {
     height: 30,
@@ -329,15 +333,15 @@ const styles = StyleSheet.create({
   },
   cardText: {
     textAlign: "center",
-    color: "black",
+    color: "#1e002a",
     fontWeight: "bold",
   },
-  // shadowProp: {
-  //   shadowColor: "red",
-  //   shadowOffset: { width: -2, height: 4 },
-  //   shadowOpacity: 0.2,
-  //   shadowRadius: 3,
-  // },
+  shadowProp: {
+    shadowColor: "red",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
   giftCardView: {
     flex: 1,
     flexDirection: "row",
@@ -347,6 +351,9 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 10,
+    borderWidth: 3,
+    borderColor: "#1e002a",
+    borderStyle: "dotted",
   },
   extras: {
     flex: 1,
@@ -355,6 +362,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "#AB8000",
     margin: 5,
+    marginBottom: 50,
     padding: 10,
     borderRadius: 10,
     justifyContent: "space-around",
