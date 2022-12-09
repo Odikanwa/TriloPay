@@ -46,7 +46,7 @@ const Home = (props) => {
   //Split Card number into four 4-digit groups
   const cardNumRaw = state.user.cardNumber;
   const CardNumSplit = cardNumRaw.match(/\d{1,4}/g);
-  console.log(state.user.balance);
+  console.log(state.user.photo);
   const cardNumber =
     CardNumSplit[0] +
     " " +
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   giftCardView: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "#AB8000",
+    backgroundColor: "#fcc201",
     justifyContent: "space-evenly",
     alignItems: "center",
     padding: 10,
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     borderWidth: 1.5,
-    borderColor: "#AB8000",
+    borderColor: "#fcc201",
     margin: 5,
     marginBottom: 50,
     padding: 10,

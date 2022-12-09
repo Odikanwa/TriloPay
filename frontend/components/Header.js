@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "./UserContext";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 
@@ -8,6 +9,7 @@ const Header = () => {
 
   const routes = useNavigationState((state) => state.routes);
   const activeRoute = routes[routes.length - 1].name;
+  const { state, dispatch } = useContext(UserContext);
 
   return (
     <View style={styles.container}>
@@ -20,11 +22,12 @@ const Header = () => {
         </TouchableOpacity>
         <Text style={styles.text}>{activeRoute}</Text>
       </View>
+
       <View style={styles.photoView}>
-        <Image
-          style={styles.photo}
-          source={require("../assets/images/profilephoto.png")}
-        />
+        {state.user.photo && (
+          <Image source={{ uri: state.user.photo }} style={styles.photo} />
+        )}
+        {/* <Image style={styles.photo} source={{ uri: state.user.photo }} /> */}
       </View>
     </View>
   );
@@ -60,15 +63,15 @@ const styles = StyleSheet.create({
   },
   photoView: {
     marginRight: 10,
-    marginTop: 4,
-    marginBottom: 4,
-    backgroundColor: "white",
+    marginTop: 2,
+    marginBottom: 2,
+    backgroundColor: "transparent",
     padding: 7,
-    borderRadius: 20,
   },
   photo: {
-    height: 25,
-    width: 15,
+    height: 32,
+    width: 32,
+    borderRadius: 20,
     resizeMode: "cover",
     alignSelf: "center",
   },
