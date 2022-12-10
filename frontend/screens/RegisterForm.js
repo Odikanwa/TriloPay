@@ -35,6 +35,7 @@ const RegisterForm = (props) => {
   const [otp, setOtp] = useState("");
   const [otpInput, setOtpInput] = useState("");
   const [id, setId] = useState("");
+  const [name, setName] = useState("");
   const url = "http://192.168.43.35:5000/users/create";
 
   const {
@@ -73,6 +74,7 @@ const RegisterForm = (props) => {
       console.log(json);
       setOtp(json.OTP);
       setId(json._id);
+      setName(json.firstName);
       setModalVisible(true);
       return json;
     } catch (error) {
@@ -101,7 +103,7 @@ const RegisterForm = (props) => {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text>Hi Michael!</Text>
+                <Text>Hi {name}!</Text>
                 <Text>
                   Thank you for signing up. A code has been sent to your email.
                 </Text>

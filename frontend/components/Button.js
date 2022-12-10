@@ -1,5 +1,6 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
+import { UserContext } from "./UserContext";
 
 export const PillButton = (props) => {
   return (
@@ -14,7 +15,8 @@ export const PillButton = (props) => {
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#AB8000",
+    backgroundColor: "#fcc201",
+    color: "#1e002a",
     padding: 10,
     marginVertical: 15,
     borderRadius: 20,

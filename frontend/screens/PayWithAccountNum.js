@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   caption: {
     fontWeight: "bold",
     textAlign: "center",
+    color: "#1e002a",
   },
   btnText: {
     color: "#1e002a",

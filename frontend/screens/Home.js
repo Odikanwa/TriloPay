@@ -117,11 +117,7 @@ const Home = (props) => {
             </Text>
           </GreenNotification>
           <View style={styles.actionView}>
-            <ActionCard
-              onPress={() => {
-                props.navigation.navigate("Pay Bills");
-              }}
-            >
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <FontAwesome5 name="file-invoice" size={32} color="#fcc201" />
               </View>
@@ -133,7 +129,7 @@ const Home = (props) => {
               </View>
               <Text style={styles.cardText}>Send Money</Text>
             </ActionCard>
-            <ActionCard onPress={() => handlePress("Fund Wallets")}>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
                   name="card-account-details-star-outline"
@@ -143,7 +139,7 @@ const Home = (props) => {
               </View>
               <Text style={styles.cardText}>Fund Wallets</Text>
             </ActionCard>
-            <ActionCard onPress={() => handlePress("Buy Airtime")}>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
                   name="phone-in-talk"
@@ -155,10 +151,7 @@ const Home = (props) => {
             </ActionCard>
           </View>
 
-          <TouchableOpacity
-            style={styles.giftCardView}
-            onPress={() => handlePress("Gift Card")}
-          >
+          <TouchableOpacity style={styles.giftCardView}>
             <FontAwesome5 name="ribbon" size={24} color="black" />
             <Text style={styles.boldText}>Generate a Gift Card</Text>
             <MaterialCommunityIcons
@@ -170,13 +163,13 @@ const Home = (props) => {
 
           <Text style={[styles.boldText, styles.caption]}>EXTRAS</Text>
           <View style={styles.extras}>
-            <ActionCard onPress={() => handlePress("Buy/Sell USD")}>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <FontAwesome5 name="dollar-sign" size={24} color="#fcc201" />
               </View>
               <Text style={styles.cardText}>Buy/Sell USD</Text>
             </ActionCard>
-            <ActionCard onPress={() => handlePress("Referrals")}>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
                   name="account-multiple-plus"
@@ -186,7 +179,7 @@ const Home = (props) => {
               </View>
               <Text style={styles.cardText}>Referrals</Text>
             </ActionCard>
-            <ActionCard onPress={() => handlePress("View Transactions")}>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <MaterialCommunityIcons
                   name="finance"
@@ -196,7 +189,7 @@ const Home = (props) => {
               </View>
               <Text style={styles.cardText}>Transactions</Text>
             </ActionCard>
-            <ActionCard onPress={() => handlePress("Support Service")}>
+            <ActionCard>
               <View style={styles.cardIcon}>
                 <FontAwesome5 name="question" size={24} color="#fcc201" />
               </View>
