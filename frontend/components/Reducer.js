@@ -47,6 +47,26 @@ export const loginReducer = (state, action) => {
         errorText: "Your email or password is incorrect. Please try again.",
         isLoading: false,
       };
+
+    case "INCORRECT_PIN":
+      return {
+        ...state,
+        errorText: "PIN incorrect! Please try again.",
+        isLoading: false,
+      };
+
+    case "UPDATE_BALANCE":
+      return {
+        ...state,
+        user: action.payload,
+        isLoading: false,
+      };
+
+    case "UPDATE_STATE":
+      return {
+        ...state,
+        isLoading: false,
+      };
     // default:
     //   return state;
   }

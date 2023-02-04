@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useContext } from "react";
 import { UserContext } from "../components/UserContext";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import Header from "../components/Header";
 import { PillButton } from "../components/Button";
 import { RedNotification } from "../components/Notification";
@@ -47,11 +47,10 @@ const SendMoney = (props) => {
               />
               <Text style={styles.btnText}>PAY WITH QR CODE</Text>
             </TouchableOpacity>
-            {/* <PillButton>
-              <Text style={styles.btnText}>
-                PAY INTO NON-DOMICILIARY ACCOUNT
-              </Text>
-            </PillButton> */}
+            <TouchableOpacity style={styles.btnFlex}>
+              <MaterialIcons name="tap-and-play" style={styles.btnIcon} />
+              <Text style={styles.btnText}>PAY WITH TAP-TO-PAY</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

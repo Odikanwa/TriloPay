@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -16,27 +16,42 @@ import { useForm, Controller } from "react-hook-form";
 import Axios from "axios";
 import { PillButton } from "../components/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { UserContext } from "../components/UserContext";
 import * as yup from "yup";
 import Input from "../components/Input";
 import Header from "../components/Header";
 
 const schema = yup.object().shape({
-  phoneNumber: yup.string().required("Phone number is required"),
+  phoneNumber: yup
+    .string()
+    .max(11, "Number more than 11 digits")
+    .required("Phone number is required"),
   address: yup.string().required("Address is required"),
-  BVN: yup.string().required("BVN is required"),
-  NIN: yup.string().required("NIN is required"),
-  cardPIN: yup.string().required("Card PIN is required"),
+  BVN: yup
+    .string()
+    .max(11, "Number more than 11 digits")
+    .required("BVN is required"),
+  NIN: yup
+    .string()
+    .max(11, "Number more than 11 digits")
+    .required("NIN is required"),
+  PIN: yup
+    .string()
+    .max(4, "PIN is more than 4 digits")
+    .required("PIN is required"),
   photo: yup.mixed().required("Please select a file"),
 });
 
 const CompleteRegForm = (props) => {
+  const { state, dispatch } = useContext(UserContext);
   const [image, setImage] = useState(null);
+  const [customerName, setCustomerName] = useState("");
 
   const route = useRoute();
   const id = route.params.id;
   console.log(id);
   const [modalVisible, setModalVisible] = useState(false);
-  const url = `http://192.168.43.35:5000/users/update/${id}`;
+  const url = `http://192.168.115.13:5000/users/update/${id}`;
 
   const {
     register,
@@ -49,6 +64,7 @@ const CompleteRegForm = (props) => {
       address: "",
       BVN: "",
       NIN: "",
+      PIN: "",
       photo: "",
     },
     resolver: yupResolver(schema),
@@ -91,12 +107,14 @@ const CompleteRegForm = (props) => {
           address: data.address,
           BVN: data.BVN,
           NIN: data.NIN,
+          PIN: data.PIN,
           photo: image,
           id,
         }),
       });
       const json = await response.json();
       setModalVisible(true);
+      setCustomerName(json.firstName);
       console.log(json);
       return json;
     } catch (error) {
@@ -111,6 +129,10 @@ const CompleteRegForm = (props) => {
 
   return (
     <SafeAreaView>
+      <StatusBar style={styles.statusBar} hidden={false} />
+      <View style={styles.header}>
+        <Header />
+      </View>
       <ScrollView>
         <View style={styles.container}>
           <Modal
@@ -123,7 +145,7 @@ const CompleteRegForm = (props) => {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text>Hello there!</Text>
+                <Text>Hi {customerName}!</Text>
                 <Text>
                   Congratulations. You have completed your registration. We are
                   glad to have you onboard!
@@ -137,15 +159,15 @@ const CompleteRegForm = (props) => {
             </View>
           </Modal>
 
-          <StatusBar style={styles.statusBar} hidden={false} />
+          {/* <StatusBar style={styles.statusBar} hidden={false} />
           <View style={styles.header}>
             <Header />
-          </View>
+          </View> */}
           <View style={styles.inputs}>
             <Controller
               control={control}
               rules={{
-                maxLength: 100,
+                maxLength: 15,
                 required: true,
               }}
               render={({ field: { onChange, value } }) => (
@@ -183,7 +205,7 @@ const CompleteRegForm = (props) => {
             <Controller
               control={control}
               rules={{
-                maxLength: 100,
+                maxLength: 11,
                 required: true,
               }}
               render={({ field: { onChange, value } }) => (
@@ -202,7 +224,7 @@ const CompleteRegForm = (props) => {
             <Controller
               control={control}
               rules={{
-                maxLength: 100,
+                maxLength: 11,
                 required: true,
               }}
               render={({ field: { onChange, value } }) => (
@@ -221,24 +243,30 @@ const CompleteRegForm = (props) => {
             <Controller
               control={control}
               rules={{
-                maxLength: 100,
+                maxLength: 4,
                 required: true,
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
-                  placeholder="Card PIN"
+                  placeholder="Card PIN - 4 digits"
                   onChangeText={onChange}
                   value={value}
                 />
               )}
-              name="cardPIN"
+              name="PIN"
             />
-            {errors.cardPIN && (
-              <Text style={styles.required}>{errors.cardPIN.message}</Text>
+            {errors.PIN && (
+              <Text style={styles.required}>{errors.PIN.message}</Text>
             )}
 
             <View style={styles.photoView}>
-              <Button title="Upload Photo" onPress={pickImage} />
+              <View style={styles.uploadBtn}>
+                <Button
+                  color="#fda50f"
+                  title="Upload Photo"
+                  onPress={pickImage}
+                />
+              </View>
               {image && <Image source={{ uri: image }} style={styles.photo} />}
             </View>
 
@@ -259,30 +287,34 @@ export default CompleteRegForm;
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    top: 23,
+    top: 0,
     bottom: 0,
     right: 0,
     left: 0,
     zIndex: -1,
+    display: "flex",
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#59076e",
   },
   header: {
-    height: 50,
+    marginTop: 25,
     width: "100%",
   },
+
   inputs: {
-    marginTop: "5%",
+    marginTop: "30%",
+    marginBottom: "70%",
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: "50%",
     backgroundColor: "white",
     padding: 10,
     paddingTop: 30,
     paddingBottom: 30,
     borderRadius: 15,
+    alignSelf: "center",
   },
   btnText: {
     color: "#1e002a",
@@ -297,7 +329,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: 0,
   },
   modalView: {
     margin: 20,
@@ -313,6 +345,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  uploadBtn: {
+    marginTop: 10,
+    marginBottom: 10,
   },
   photoView: {
     flex: 1,

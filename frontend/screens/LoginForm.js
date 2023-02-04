@@ -28,7 +28,7 @@ const LoginForm = (props) => {
   // const [errorText, setErrorText] = useState("");
   // const [id, setId] = useState(null);
   // const route = useRoute();
-  const url = "http://192.168.43.35:5000/users/email";
+  const url = "http://192.168.115.13:5000/users/email";
 
   const {
     control,
@@ -79,12 +79,12 @@ const LoginForm = (props) => {
 
   return (
     <SafeAreaView>
+      <StatusBar style={styles.statusBar} hidden={false} />
+      <View style={styles.header}>
+        <Header />
+      </View>
       <ScrollView>
         <View style={styles.container}>
-          <StatusBar style={styles.statusBar} hidden={false} />
-          <View style={styles.header}>
-            <Header />
-          </View>
           <View style={styles.inputs}>
             <Text style={styles.caption}>SIGN IN</Text>
             <Text style={styles.required}>{state.errorText}</Text>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     width: "100%",
-    top: 23,
+    top: 0,
     bottom: 0,
     right: 0,
     left: 0,
@@ -156,14 +156,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#59076e",
   },
   header: {
-    height: 50,
+    marginTop: 25,
     width: "100%",
   },
   inputs: {
-    marginTop: "25%",
+    marginTop: "40%",
+    marginBottom: "100%",
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: "60%",
     backgroundColor: "white",
     padding: 10,
     paddingTop: 30,

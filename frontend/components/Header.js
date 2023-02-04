@@ -26,7 +26,7 @@ const Header = () => {
   const activeRoute = routes[routes.length - 1].name;
   const { state, dispatch } = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
-  console.log("HEADER PHOTO:", state.user.photo);
+  // console.log("HEADER PHOTO:", state.user.photo);
 
   return (
     <SafeAreaView>
@@ -112,31 +112,37 @@ const Header = () => {
                     />
                     <Text style={styles.btn}>Notifications</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btnFlex}>
+                  <TouchableOpacity style={[styles.btnFlex, styles.purpleBtn]}>
                     <MaterialCommunityIcons
                       name="wallet-giftcard"
                       style={styles.btnICon}
                     />
-                    <Text style={styles.btn}>Gift Cards</Text>
+                    <Text style={[styles.btn, styles.whiteText]}>
+                      Gift Cards
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btnFlex}>
+                  <TouchableOpacity style={[styles.btnFlex, styles.purpleBtn]}>
                     <MaterialIcons name="history" style={styles.btnICon} />
-                    <Text style={styles.btn}>Activity History</Text>
+                    <Text style={[styles.btn, styles.whiteText]}>
+                      Activity History
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btnFlex}>
+                  <TouchableOpacity style={[styles.btnFlex, styles.purpleBtn]}>
                     <Ionicons name="settings-sharp" style={styles.btnICon} />
-                    <Text style={styles.btn}>Settings</Text>
+                    <Text style={[styles.btn, styles.whiteText]}>Settings</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btnFlex}>
+                  <TouchableOpacity style={[styles.btnFlex, styles.purpleBtn]}>
                     <MaterialIcons
                       name="contact-support"
                       style={styles.btnICon}
                     />
-                    <Text style={styles.btn}>Help Center</Text>
+                    <Text style={[styles.btn, styles.whiteText]}>
+                      Help Center
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btnFlex}>
+                  <TouchableOpacity style={[styles.btnFlex, styles.purpleBtn]}>
                     <FontAwesome name="power-off" style={styles.btnICon} />
-                    <Text style={styles.btn}>Sign Out</Text>
+                    <Text style={[styles.btn, styles.whiteText]}>Sign Out</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -168,11 +174,12 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 46,
+    height: 50,
     marginTop: 0,
     marginBottom: 0,
     backgroundColor: "white",
     flex: 1,
+    paddingTop: 8,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -192,11 +199,13 @@ const styles = StyleSheet.create({
   chevronLeft: {
     paddingLeft: 5,
     paddingRight: 15,
+    alignSelf: "center",
   },
   text: {
     fontSize: 17,
     color: "#1e002a",
     fontWeight: "bold",
+    alignSelf: "center",
   },
   photoView: {
     marginRight: 5,
@@ -266,13 +275,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   cancel: {
-    color: "red",
+    color: "#59076e",
     fontSize: 40,
     alignSelf: "flex-end",
   },
   photoOnModal: {
-    height: 100,
-    width: 100,
+    marginTop: "10%",
+    height: 120,
+    width: 120,
     borderRadius: 20,
     resizeMode: "cover",
     alignSelf: "center",
@@ -287,9 +297,9 @@ const styles = StyleSheet.create({
   buttonsView: {
     width: "100%",
     margin: 0,
+    marginTop: "20%",
     flex: 1,
     flexDirection: "column",
-    marginTop: "7%",
     alignSelf: "flex-start",
     alignContent: "center",
     justifyContent: "center",
@@ -303,6 +313,7 @@ const styles = StyleSheet.create({
     padding: 6,
     marginBottom: 4,
     borderRadius: 4,
+    borderBottomRightRadius: 20,
   },
   btn: {
     color: "#1e002a",
@@ -313,5 +324,12 @@ const styles = StyleSheet.create({
     paddingRight: 7,
     fontSize: 22,
     alignSelf: "center",
+  },
+  purpleBtn: {
+    borderBottomRightRadius: 20,
+    backgroundColor: "#59076e",
+  },
+  whiteText: {
+    color: "white",
   },
 });

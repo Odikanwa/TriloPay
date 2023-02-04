@@ -32,10 +32,6 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
-    cardPIN: {
-      type: String,
-      required: false,
-    },
     balance: {
       type: String,
       required: false,
@@ -55,6 +51,10 @@ const userSchema = new Schema(
     NIN: {
       type: String,
       requred: false,
+    },
+    PIN: {
+      type: String,
+      required: false,
     },
     photo: {
       data: Buffer,

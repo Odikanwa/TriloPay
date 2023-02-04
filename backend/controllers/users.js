@@ -1,12 +1,5 @@
 import { User } from "../models/users.js";
 
-//Generate account number
-// const AccountNum = () => {
-//   const randomNum = Math.random().toString();
-//   randomNum.substring(2, 10);
-//   return randomNum;
-// };
-
 // Create User
 export const createUser = (req, res) => {
   const body = req.body;
@@ -23,7 +16,7 @@ export const createUser = (req, res) => {
   const user = new User({
     ...body,
     accountNumber: accountNum,
-    balance: "0.00",
+    balance: "100.00",
     cardNumber: cardNumber,
     CVV: cvv,
     OTP: otp,
@@ -59,18 +52,12 @@ export const getUser = (req, res) => {
   User.findById(req.params.id)
     .then((result) => {
       res.send(result);
-      console.log(result);
+      // console.log(result);
       console.log(req.params.id);
     })
     .catch((err) => {
       console.log(err);
     });
-  console.log("Mike here");
-
-  //   res.send("GET ID ROUTE");
-  //   const { id } = req.params;
-  //   const foundUser = users.find((user) => user.id === id);
-  //   res.send(foundUser);
 };
 
 // Delete user with ID
@@ -88,6 +75,7 @@ export const deleteUser = (req, res) => {
   //   res.send(`User with the id ${id} has been deleted from the database`);
 };
 
+//Get User with Email
 export const getUserByEmail = (req, res) => {
   User.findOne({ email: req.body.email, password: req.body.password })
     .exec()
@@ -101,8 +89,29 @@ export const getUserByEmail = (req, res) => {
       } else {
         res.send(result);
       }
-      console.log("You have reached FindUserBy Email route");
+      console.log("User found");
       console.log(req.body.email, req.body.password);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+//Get User with Account Number
+export const getUserByAccountNum = (req, res) => {
+  User.findOne({ accountNumber: req.body.accountNumber })
+    .exec()
+    .then((result) => {
+      if (result == null || result == "") {
+        result = JSON.stringify({
+          value: "null",
+          msg: "No account record found",
+        });
+        res.send(result);
+      } else {
+        res.send(result);
+      }
+      console.log("Account Number found: ", req.body.accountNumber);
     })
     .catch((error) => {
       console.log(error);
@@ -116,6 +125,7 @@ export const updateUser = (req, res) => {
     address: req.body.address,
     BVN: req.body.BVN,
     NIN: req.body.NIN,
+    PIN: req.body.PIN,
     photo: req.body.photo,
   })
     .then((result) => {
@@ -129,3 +139,96 @@ export const updateUser = (req, res) => {
       console.log(err);
     });
 };
+
+//Send Money - Update User Account Balance
+export const updateReceiverBalance = (req, res) => {
+  User.findByIdAndUpdate(req.params.id, {
+    balance: (
+      parseInt(req.body.receiverBalance) + parseInt(req.body.amount)
+    ).toString(),
+  })
+    .then((result) => {
+      if (result == null || result == "") {
+        result = JSON.stringify({
+          value: "null",
+          msg: "Operation failed",
+        });
+      } else {
+        // updateSenderBalance(
+        //   req.body.senderId,
+        //   req.body.senderBalance,
+        //   req.body.amount
+        // );
+        res.send(result);
+      }
+
+      console.log(req.body.id);
+      console.log(
+        "Balance updated: ",
+        req.body.receiverBalance + " " + req.body.amount
+      );
+
+      // console.log(
+      //   "SENDER DETAILS: ",
+      //   req.body.senderId,
+      //   req.body.senderBalance,
+      //   req.body.amount
+      // );
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const updateSenderBalance = (req, res) => {
+  const senderBalance = parseInt(req.body.senderBalance);
+  const amount = parseInt(req.body.amount);
+  console.log(senderBalance, amount);
+  if (senderBalance <= 0 || amount > senderBalance) {
+    return;
+  } else {
+    User.findByIdAndUpdate(req.params.id, {
+      balance: (senderBalance - amount).toString(),
+    })
+      .then((result) => {
+        // if (result == null || result == "") {
+        //   result = JSON.stringify({
+        //     value: "null",
+        //     msg: "Operation failed",
+        //   });
+        // } else {
+        res.send(result);
+        console.log("Account debited");
+        // }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+};
+
+// const updateSenderBalance = (senderId, senderBalance, amount) => {
+//   senderBalance = parseInt(senderBalance);
+//   amount = parseInt(amount);
+//   if (senderBalance <= 0 || amount > senderBalance) {
+//     return;
+//   } else {
+//     User.findByIdAndUpdate(senderId, {
+//       balance: (senderBalance - amount).toString(),
+//     })
+//       .then((result) => {
+//         console.log("Account debited");
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   }
+// };
+
+//DOESNT'T WORK? - SEE ALTERNATIVE
+
+// create patch fetch on the frontend
+// create an api & Controller to receive the state
+// update the document and send to the fetch-frontend
+// create a reducer method to update the state
+// use dispatch to update the current state from the front-end

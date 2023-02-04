@@ -8,8 +8,14 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import React, { useContext, useEffect } from "react";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { UserContext, UserProvider } from "../components/UserContext";
 import { useFonts } from "expo-font";
 import ActionCard from "../components/ActionCard";
@@ -18,6 +24,7 @@ import {
   FontAwesome,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+// import { io } from "socket.io-client";
 import {
   Orbitron_400Regular,
   Orbitron_500Medium,
@@ -29,8 +36,65 @@ import {
 import Header from "../components/Header";
 import { GreenNotification } from "../components/Notification";
 
-const Home = (props) => {
+const Home = (props, { navigation }) => {
   const { state, dispatch } = useContext(UserContext);
+  const [balance, setBalance] = useState(state.user.balance);
+  // const [socket, setSocket] = useState(null);
+  const url = `http://192.168.115.13:5000/users/${state.user._id}`;
+
+  useEffect(
+    useCallback(() => {
+      const controller = new AbortController();
+      const signal = controller.signal;
+
+      try {
+        // async function fetchData() {
+        fetch(url, {
+          method: "GET",
+          headers: {
+            Accept:
+              "application/json, text/plain, multipart/form-data, application/x-www-form-urlencoded, */*",
+            "Content-Type": "application/json",
+          },
+          signal: signal,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setBalance(data.balance);
+            console.log(data.balance);
+            // console.log(data);
+          })
+          .catch((error) => {
+            console.log("ERROR:", error);
+          });
+
+        return () => {
+          console.log("aborted!");
+          controller.abort();
+        };
+      } catch (error) {
+        console.log(error);
+      }
+    }, [])
+  );
+
+  // useEffect(() => {
+  // const socket = io("http://192.168.43.35:5000", {
+  //   withCredentials: true,
+  // });
+  // console.log("CLient: Connection Status:  ", socket.id, socket.connected);
+  // socket.on("Welcome", (message) => {
+  //   console.log(message);
+  // });
+  // socket.on("connection", () => {
+  //   console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+  // });
+  // }, []);
+
+  // dispatch({ type: "UPDATE_STATE" });
+  // const route = useRoute();
+  // const senderBalance = route.params.senderBalance;
+
   console.log("@HOMESCREEN STATE: ", state);
   const [fontsLoaded] = useFonts({
     // Orbitron_500Medium,
@@ -43,6 +107,7 @@ const Home = (props) => {
   const handlePress = (path) => {
     props.navigation.navigate(path);
   };
+
   //Split Card number into four 4-digit groups
   const cardNumRaw = state.user.cardNumber;
   const CardNumSplit = cardNumRaw.match(/\d{1,4}/g);
@@ -70,7 +135,7 @@ const Home = (props) => {
               <View style={styles.flexRow}>
                 <View style={styles.balanceTextView}>
                   <Text style={styles.balanceText}>
-                    {state.user.balance + " " + "NGN"}
+                    {parseFloat(balance).toFixed(2) + " " + "NGN"}
                   </Text>
                 </View>
                 <View style={styles.wifiImg}>
@@ -84,7 +149,7 @@ const Home = (props) => {
               <View style={styles.flexRow}>
                 <Image
                   style={styles.chipImg}
-                  source={require("../assets/images/chip.png")}
+                  source={require("../assets/images/chip2.png")}
                 />
                 <Text style={styles.violetText}>Debit</Text>
               </View>
@@ -103,7 +168,7 @@ const Home = (props) => {
                 <View style={styles.logo}>
                   <Image
                     style={styles.logoImg}
-                    source={require("../assets/images/triloLogo.png")}
+                    source={require("../assets/images/icon2.png")}
                   />
                   <Text style={styles.logoText}>Trilopay</Text>
                 </View>
@@ -245,10 +310,11 @@ const styles = StyleSheet.create({
   balanceTextView: {
     height: 25,
     width: "auto",
-    backgroundColor: "#1e002a",
+    backgroundColor: "red",
     paddingBottom: 0,
     paddingRight: 8,
     paddingLeft: 8,
+    marginLeft: 0,
 
     borderRadius: 20,
     textAlign: "center",

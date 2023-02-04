@@ -19,7 +19,7 @@ import Header from "../components/Header";
 const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 
 const schema = yup.object().shape({
-  firstName: yup.string().required("Fist name required"),
+  firstName: yup.string().required("Fist name is required"),
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email().required("Email is required"),
   password: yup
@@ -36,7 +36,7 @@ const RegisterForm = (props) => {
   const [otpInput, setOtpInput] = useState("");
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const url = "http://192.168.43.35:5000/users/create";
+  const url = "http://192.168.115.13:5000/users/create";
 
   const {
     control,
@@ -84,12 +84,17 @@ const RegisterForm = (props) => {
 
   const onSubmitOTP = (path) => {
     if (otp == otpInput && errors.OTP == null) {
-      props.navigation.navigate(path, { otpInput, id });
+      setModalVisible(false);
+      props.navigation.navigate(path, { id });
     }
   };
 
   return (
     <SafeAreaView>
+      <StatusBar style={styles.statusBar} hidden={false} />
+      <View style={styles.header}>
+        <Header />
+      </View>
       <ScrollView>
         <View style={styles.container}>
           {/* MODAL for OTP authentication  */}
@@ -138,10 +143,10 @@ const RegisterForm = (props) => {
             </View>
           </Modal>
 
-          <StatusBar style={styles.statusBar} hidden={false} />
-          <View style={styles.header}>
+          {/* <StatusBar style={styles.statusBar} hidden={false} /> */}
+          {/* <View style={styles.header}>
             <Header />
-          </View>
+          </View> */}
           <View style={styles.inputs}>
             <Controller
               control={control}
@@ -260,7 +265,8 @@ export default RegisterForm;
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    top: 23,
+    width: "100%",
+    top: 0,
     bottom: 0,
     right: 0,
     left: 0,
@@ -268,18 +274,21 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#59076e",
   },
   header: {
-    height: 50,
+    marginTop: 25,
+    // height: 50,
     width: "100%",
   },
   inputs: {
-    marginTop: "5%",
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: "50%",
+    marginTop: "30%",
+    marginBottom: "70%",
     backgroundColor: "white",
+    alignSelf: "center",
     padding: 10,
     paddingTop: 30,
     paddingBottom: 30,
@@ -298,7 +307,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: 0,
   },
   modalView: {
     margin: 20,

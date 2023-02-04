@@ -4,6 +4,10 @@ import mongoose from "mongoose";
 import cors from "cors";
 import usersRoutes from "./routes/users.js";
 import { User } from "./models/users.js";
+// import { createServer } from "http";
+// import { Server } from "socket.io";
+
+//"start": "nodemon index.js"
 
 const app = express();
 const PORT = 5000;
@@ -27,6 +31,15 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
+// const httpServer = createServer(app);
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: "http://192.168.43.35:3000",
+//     credentials: true,
+//   },
+// });
+
 // Connect to MongoDB
 const dbURI =
   "mongodb+srv://Odikanwa:Odikanwa@trilopay.gmpx5eq.mongodb.net/TriloPay?retryWrites=true&w=majority";
@@ -38,6 +51,16 @@ mongoose
     )
   )
   .catch((err) => console.log(err));
+
+// io.on("connection", (socket) => {
+//   console.log("New Connection: ", socket.id);
+
+//   socket.on("disconnect", () => {
+//     console.log("Disconnected: ", socket.id);
+
+//     io.emit("Welcome", "This is a socket io server");
+//   });
+// });
 
 // All routes start with users. run userRoutes once code is hit
 app.use("/users", usersRoutes);

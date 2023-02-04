@@ -11,27 +11,32 @@ const Splash = (props) => {
   return (
     <View style={styles.container}>
       <StatusBar hidden={true} backgroundColor="#4b025e" style="light" />
-      <View style={styles.logo}>
-        <Image
-          style={styles.img}
-          source={require("../assets/images/triloLogo.png")}
-        />
-        <Text style={styles.companyName}>Trilopay</Text>
+      <View style={styles.logoDiv}>
+        <View style={styles.logo}>
+          <Image
+            style={styles.img}
+            source={require("../assets/images/icon2.png")}
+          />
+          <Text style={styles.companyName}>Trilopay</Text>
+        </View>
+        <Text style={styles.slogan}> Your money, your bank !</Text>
       </View>
-      <PillButton
-        onPress={() => {
-          props.navigation.navigate("Register");
-        }}
-      >
-        <Text style={styles.btnText}>REGISTER FOR A NEW ACCOUNT</Text>
-      </PillButton>
-      <PillButton
-        onPress={() => {
-          props.navigation.navigate("Login");
-        }}
-      >
-        <Text style={styles.btnText}>SIGN IN</Text>
-      </PillButton>
+      <View style={styles.btnsView}>
+        <PillButton
+          onPress={() => {
+            props.navigation.navigate("Register");
+          }}
+        >
+          <Text style={styles.btnText}>CREATE NEW ACCOUNT</Text>
+        </PillButton>
+        <PillButton
+          onPress={() => {
+            props.navigation.navigate("Login");
+          }}
+        >
+          <Text style={styles.btnText}>SIGN IN</Text>
+        </PillButton>
+      </View>
     </View>
   );
 };
@@ -51,32 +56,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  logoDiv: { marginTop: "20%", marginBottom: "20%" },
   logo: {
     width: "auto",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: -30,
   },
   img: {
-    height: 50,
-    width: 50,
+    height: 80,
+    width: 80,
     marginRight: -5,
+    marginBottom: 0,
   },
   companyName: {
-    color: "white",
-    fontSize: 20,
+    marginTop: -10,
+    fontSize: 30,
     fontWeight: "bold",
     marginLeft: 0,
     color: "gold",
   },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#AB8000",
-    padding: 10,
-    marginVertical: 10,
-    borderRadius: 20,
+  slogan: {
+    marginTop: 0,
+    fontStyle: "italic",
+    fontWeight: "600",
+    color: "gold",
+    marginLeft: "35%",
   },
+  // btnsView: {
+  //   marginTop: "30%",
+  // },
   btnText: {
     color: "#1e002a",
     fontWeight: "bold",
